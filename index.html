@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html style="font-size: 62.5%;">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Unspace</title>
+  </head>
+  <body>
+    <div id="background" style="position:fixed;top:0;left:0;width:100%;height:100%;background-repeat:no-repeat;background-size:100% 100%"></div>
+
+    <div id="info-text" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%, -50%);background:rgba(0, 0, 0, .5);padding:1rem;color:#fff;font-size:1.6rem;text-align:center">
+      <div style="padding:1rem">https://github.com/m31k3r</div>
+      <div style="padding:1rem">Display new images by pressing the bottom left symbol (or space bar).</div>
+    </div>
+
+    <div id="loader" style="position:fixed;bottom:0;left:0;padding:1rem;cursor:pointer" onClick="newImg()">
+      <svg viewBox="0 0 32 32" width="32" height="32" style="display:block">
+        <path fill="#fff" stroke="#888" stroke-width:".1rem" d="M31 12.25h-11.25l4.205-4.205c-2.125-2.125-4.95-3.295-7.955-3.295s-5.83 1.17-7.955 3.295c-2.125 2.125-3.295 4.95-3.295 7.955s1.17 5.83 3.295 7.955c2.125 2.125 4.95 3.295 7.955 3.295s5.83-1.17 7.955-3.295c0.177-0.177 0.347-0.36 0.511-0.547l2.822 2.469c-2.749 3.14-6.787 5.123-11.288 5.123-8.284 0-15-6.716-15-15s6.716-15 15-15c4.142 0 7.892 1.679 10.606 4.394l4.394-4.394v11.25z">
+        </path>
+      </svg>
+    </div>
+
+    <div id="info-btn" style="position:fixed;bottom:0;right:0;padding:1rem;cursor:pointer" onClick="toggleInfo()">
+      <svg viewBox="0 0 32 32" width="32" height="32" style="display:block">
+        <path fill="#fff" stroke="#888" stroke-width:".1rem" d="M16 2c-7.7 0-14 6.3-14 14s6.3 14 14 14 14-6.3 14-14-6.3-14-14-14zM17.75 23.875c0 0.525-0.35 0.875-0.875 0.875h-1.75c-0.525 0-0.875-0.35-0.875-0.875v-10.5c0-0.525 0.35-0.875 0.875-0.875h1.75c0.525 0 0.875 0.35 0.875 0.875v10.5zM17.75 9.875c0 0.525-0.35 0.875-0.875 0.875h-1.75c-0.525 0-0.875-0.35-0.875-0.875v-1.75c0-0.525 0.35-0.875 0.875-0.875h1.75c0.525 0 0.875 0.35 0.875 0.875v1.75z"></path>
+      </svg>
+    </div>
+
+    <script>
+      // first image.
+      document.getElementById("background").style.backgroundImage = "url(https://source.unsplash.com/random/"+window.innerWidth+"x"+window.innerHeight+")";
+
+      // secondry images.
+      window.onkeydown = function(e) {
+        if (e.keyCode === 32) newImg();
+      }
+
+      function newImg() {
+        var img = new Image();
+
+        // start the loading indicator.
+        document.getElementById("loader").style.transition = "transform 2s";
+        document.getElementById("loader").style.transform = "rotate(360deg)";
+
+        img.onload = function() {
+          // turn off the loading indicator.
+          document.getElementById("loader").style.transition = null;
+          document.getElementById("loader").style.transform = null;
+
+          // display the new image.
+          document.getElementById("background").style.backgroundImage = "url("+img.src+")";
+        }
+
+        // get the new image.
+        img.src = "https://source.unsplash.com/random/"+window.innerWidth+"x"+window.innerHeight+"?sig="+Date.now();
+      }
+
+      function toggleInfo() {
+        var i = document.getElementById("info-text").style;
+        i.display == "none" ? i.display = "block" : i.display = "none";
+      }
+    </script>
+  </body>
+</html>
